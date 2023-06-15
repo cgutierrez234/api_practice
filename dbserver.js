@@ -1,23 +1,22 @@
 // bring in depenedencies
 const express = require("express");
 const { Pool } = require("pg");
+const dotenv = require("dotenv");
+const app = express();
+
+dotenv.config();
+
+const dbString = process.env.DATABASE_URL;
+const PORT = process.env.PORT;
 
 //create new pool connection to db
 
 const pool = new Pool({
-  username: "carlgutierrez",
-  host: "localhost",
-  database: "magic_cards",
-  password: "password",
-  port: 5432,
+  connectionString: dbString,
 });
 
-//create new app for express
-const app = express();
 //bring in middleware
-app.use(express.json());
-
-//create those restful routes
+app.use(express.static("public"));
 
 app.get("/magic_cards", async (req, res) => {
   try {
@@ -71,7 +70,7 @@ app.put("/magic_cards/:id", async (req, res) => {
     if (result.rowCount === 0) {
       res.status(404).send("Cannot update card at that id");
     } else {
-      res.send(result.rows[0]);
+      res.json(result.rows[0]);
     }
   } catch (err) {
     console.error(err);
@@ -89,7 +88,7 @@ app.delete("/magic_cards/:id", async (req, res) => {
     if (result.rowCount === 0) {
       res.status(404).send("Unable to delete magic card at the given id");
     } else {
-      res.send(result.rows[0]);
+      res.json(result.rows[0]);
     }
   } catch (err) {
     console.error(err);
@@ -99,6 +98,6 @@ app.delete("/magic_cards/:id", async (req, res) => {
 
 // create listener
 
-app.listen(3001, () => {
-  console.log("Server is running");
+app.listen(PORT, () => {
+  console.log(`Server is running ON ${PORT}`);
 });
