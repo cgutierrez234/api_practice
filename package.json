@@ -5,7 +5,8 @@
   "main": "dbserver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon dbserver.js"
+    "server": "nodemon dbserver.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
