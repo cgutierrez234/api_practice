@@ -17,6 +17,7 @@ const pool = new Pool({
 
 //bring in middleware
 app.use(express.static("public"));
+app.use(express.json());
 
 app.get("/magic_cards", async (req, res) => {
   try {
